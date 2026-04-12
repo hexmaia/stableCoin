@@ -34,11 +34,10 @@ contract Real is ERC20Burnable, Ownable {
     error Real_BurnAmountExceedsBalance();
     error Real_NotZeroAddress();
 
-    address private sOwner;
-
-    constructor() ERC20("Decentralized Real", "BRLC") {
-        sOwner = msg.sender;
-    }
+    constructor(
+        string memory _tokenName,
+        string memory _tokenSymbol
+    ) ERC20(_tokenName, _tokenSymbol) Ownable(msg.sender) {}
 
     function burn(uint256 _amount) public override onlyOwner {
         uint256 balance = balanceOf(msg.sender);
@@ -66,4 +65,6 @@ contract Real is ERC20Burnable, Ownable {
         _mint(_to, _amount);
         return true;
     }
+
+    receive() external payable {}
 }
